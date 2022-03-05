@@ -1,0 +1,23 @@
+{
+  "name": "scrape",
+  "version": "1.0.0",
+  "description": "scrape",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./index.js"
+  },
+  "keywords": [
+    "scrape"
+  ],
+  "author": "Rajat Dua",
+  "license": "MIT",
+  "dependencies": {
+    "jsdom": "^19.0.0",
+    "node-fetch": "^3.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

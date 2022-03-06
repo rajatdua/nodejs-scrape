@@ -52,9 +52,13 @@ import https from "https";
   };
 
   const parentPath = `/scrape-${domain}/surf`;
+  console.log("Initial setup");
+  console.log("---------------------------------");
 
   if (!fs.existsSync(parentPath)) {
+    console.log("Creating parent directory:", parentPath);
     fs.mkdirSync(parentPath, { recursive: true });
+    console.log("---------------------------------");
   }
 
   const apiPromise = (href, dest) => {
@@ -66,24 +70,34 @@ import https from "https";
   const processMaps = async () => {
     const files = Object.keys(groups);
     const result = [];
+    console.log("Starting download process");
+    console.log("---------------------------------");
+    console.log("---------------------------------");
     for (let i = 0; i < files.length; i++) {
       const mapName = files[i] || "";
-      if (!fs.existsSync(`${parentPath}/${mapName}`)) {
-        fs.mkdirSync(`${parentPath}/${mapName}`, { recursive: true });
+      const mapNameWithParentPath = `${parentPath}/${mapName}`;
+      if (!fs.existsSync(mapNameWithParentPath)) {
+        console.log("Creating child directory:", mapNameWithParentPath);
+        fs.mkdirSync(mapNameWithParentPath, { recursive: true });
       }
+      console.log("Downloading map:", mapName);
+      console.log("---------------------------------");
       const filesToDownload = groups[mapName] || [];
       for (let i = 0; i < filesToDownload.length; i++) {
         const fileConfig = filesToDownload[i] || {};
+        console.log("Downloading file:", fileConfig.name);
         result.push(
           await apiPromise(
             fileConfig.href,
             `${parentPath}/${mapName}/${fileConfig.name}`
           )
         );
+        console.log("Download complete:", fileConfig.name);
+        console.log("---------------------------------");
       }
     }
+    console.log("Process complete");
     return result;
   };
-  const downloaded = await processMaps();
-  console.log(downloaded);
+  await processMaps();
 })();
